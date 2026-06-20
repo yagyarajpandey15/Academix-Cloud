@@ -28,7 +28,7 @@ const Pagination = ({ page, count }: { page: number; count: number }) => {
       <div className="flex items-center gap-2 text-sm">
         {(() => {
           const totalPages = Math.ceil(count / ITEM_PER_PAGE);
-          const pageNumbers = [];
+          const pageNumbers: (number | string)[] = [];
           
           // Always show first page
           if (totalPages > 0) {

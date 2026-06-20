@@ -66,7 +66,7 @@ export function Schedule({
 
   // Generate days based on view
   const getDays = () => {
-    const days = []
+    const days: Date[] = []
     const dayCount = view === "day" ? 1 : view === "work-week" ? 5 : 7
     const startDay = view === "work-week" ? 1 : 0 // Start from Monday for work week
 

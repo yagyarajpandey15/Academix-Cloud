@@ -36,11 +36,12 @@ export const ReportCard = ({
     }
     acc[subjectName].push(result);
     return acc;
-  }, {} as Record<string, typeof student.results>);
+  }, {} as Record<string, StudentWithResults['results']>);
 
   const subjectScores = Object.entries(subjectResults).map(([subject, results]) => {
-    const totalScore = results.reduce((sum, result) => sum + result.score, 0);
-    const averageScore = results.length > 0 ? totalScore / results.length : 0;
+    const typedResults = results as StudentWithResults['results'];
+    const totalScore = typedResults.reduce((sum: number, result) => sum + result.score, 0);
+    const averageScore = typedResults.length > 0 ? totalScore / typedResults.length : 0;
     return { subject, score: averageScore };
   });
 

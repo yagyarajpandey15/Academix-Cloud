@@ -64,7 +64,7 @@ export function AgendaSchedule({ events, initialDate = new Date(), daysToShow = 
 
   // Get days to display
   const getDaysToDisplay = () => {
-    const days = []
+    const days: Date[] = []
 
     for (let i = 0; i < daysToShow; i++) {
       const date = new Date(currentDate)

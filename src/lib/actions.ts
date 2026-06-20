@@ -711,7 +711,7 @@ export const deleteStudent = async (
     }
 
     // Delete all related records first in a transaction to ensure consistency
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       // Delete enrollments (using StudentId from the student record)
       await tx.enrollment.deleteMany({
         where: { studentId: student.StudentId }
@@ -1931,7 +1931,7 @@ export const createPayment = async (
     const rand = Math.floor(1000 + Math.random() * 9000).toString();
     const uniqueReference = `${ts}${rand}`;
     return await prisma.$transaction(
-      async (tx) => {
+      async (tx: any) => {
         // 1. Create payment with generated reference
         const payment = await tx.payment.create({
           data: {
@@ -1994,7 +1994,7 @@ export const updatePayment = async (
     };
 
   try {
-    return await prisma.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx: any) => {
       // 1. Get existing payment
       const oldPayment = await tx.payment.findUnique({
         where: { id: String(data.id) },
@@ -2044,7 +2044,7 @@ export const deletePayment = async (
 ) => {
   const id = data.get("id") as string;
   
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: any) => {
     // 1. Get payment details
     const payment = await tx.payment.delete({
       where: { id: String(id) },
@@ -2680,7 +2680,7 @@ export const createBulkFees = async (
     }
 
     // Create fees for all students in a transaction with increased timeout
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       const feePromises = enrollments.map(enrollment =>
         tx.fee.create({
           data: {
@@ -3017,7 +3017,7 @@ export const createBulkFeesFromTemplate = async (
     }
 
     // Create fees for all students in a transaction
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       for (const enrollment of enrollments) {
         for (const template of feeTemplates) {
           // Check if fee already exists for this student and category
@@ -3290,7 +3290,7 @@ export const generateFeeReport = async (filters: {
 
     // Build where clause
     const whereClause: any = {};
-    let selectedClass = null;
+    let selectedClass: { name: string } | null = null;
 
     // Filter by class through student enrollment and get class name
     if (classId && classId !== "") {

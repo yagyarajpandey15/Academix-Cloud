@@ -65,7 +65,7 @@ export function TimelineSchedule({ events, initialDate = new Date() }: TimelineS
 
   // Get days to display based on view
   const getDaysToDisplay = () => {
-    const days = []
+    const days: Date[] = []
     const daysToShow = view === "day" ? 1 : 3
 
     for (let i = 0; i < daysToShow; i++) {
@@ -94,7 +94,7 @@ export function TimelineSchedule({ events, initialDate = new Date() }: TimelineS
 
   // Generate time slots
   const generateTimeSlots = () => {
-    const slots = []
+    const slots: number[] = []
     for (let i = 7; i <= 19; i++) {
       slots.push(i * 60) // Hours in minutes
     }

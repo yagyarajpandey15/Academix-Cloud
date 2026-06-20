@@ -354,7 +354,7 @@ const ClassDetailPage = async (props: { params: { id: string }, searchParams?: {
             <TableSearch placeholder="Search students..." />
             <SortDropdown options={studentSortOptions} defaultSort="name" />
             <PrintStudentList 
-              students={enrollments.map((e: { student: unknown }) => e.student)} 
+              students={enrollments.map((e) => e.student)} 
               className={classData.name}
               currentYear={currentYear}
             />

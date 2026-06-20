@@ -163,7 +163,7 @@ const StudentListPage = async (
     distinct: ['year'],
     orderBy: { year: 'desc' }
   });
-  const yearOptions = allYears.map(e => e.year).sort((a, b) => b - a);
+  const yearOptions = allYears.map((e: { year: number }) => e.year).sort((a, b) => b - a);
 
   const [data, count] = await prisma.$transaction([
     prisma.enrollment.findMany({

@@ -64,7 +64,7 @@ const ClassDetailPage = async (props: { params: { id: string }, searchParams?: {
     distinct: ['year'],
     orderBy: { year: 'desc' }
   });
-  const yearOptions = allYears.map(e => e.year).sort((a, b) => b - a);
+  const yearOptions = allYears.map((e: { year: number }) => e.year).sort((a, b) => b - a);
 
   // Fetch enrollments for this class, filtered by year if selected
   const enrollments = await prisma.enrollment.findMany({
@@ -354,7 +354,7 @@ const ClassDetailPage = async (props: { params: { id: string }, searchParams?: {
             <TableSearch placeholder="Search students..." />
             <SortDropdown options={studentSortOptions} defaultSort="name" />
             <PrintStudentList 
-              students={enrollments.map(e => e.student)} 
+              students={enrollments.map((e: { student: unknown }) => e.student)} 
               className={classData.name}
               currentYear={currentYear}
             />

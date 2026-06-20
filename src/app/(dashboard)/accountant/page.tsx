@@ -96,7 +96,7 @@ const AccountantDashboard = async () => {
     expenses: 0,
   }));
 
-  monthlyIncome.forEach(item => {
+  monthlyIncome.forEach((item: { date: Date; _sum: { amount: bigint | null } }) => {
     const adDate = new Date(item.date);
     const bsDate = ADToBS(adDate.toISOString().split('T')[0]);
     const bsMonth = parseInt(bsDate.split('-')[1]) - 1;
@@ -105,7 +105,7 @@ const AccountantDashboard = async () => {
     }
   });
 
-  monthlyExpenses.forEach(item => {
+  monthlyExpenses.forEach((item: { createdAt: Date; _sum: { amount: bigint | null } }) => {
     const adDate = new Date(item.createdAt);
     const bsDate = ADToBS(adDate.toISOString().split('T')[0]);
     const bsMonth = parseInt(bsDate.split('-')[1]) - 1;

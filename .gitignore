@@ -40,3 +40,6 @@ next-env.d.ts
 /generated/
 /prisma/generated/
 /node_modules/.prisma/
+
+# npm lock file (project uses yarn)
+package-lock.json

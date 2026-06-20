@@ -127,7 +127,12 @@ const AccountantDashboard = async () => {
     }
   });
 
-  const expenseChartData = expenseDistribution.map(item => {
+  const expenseChartData = expenseDistribution.map((item: { 
+    type: string; 
+    expenseCategory: string | null; 
+    incomeCategory: string | null; 
+    _sum: { amount: bigint | null } 
+  }) => {
     // Get the category name - either from the Nepali mapping or format the enum
     const categoryName = item.expenseCategory ? 
       (expenseCategoryNepali[item.expenseCategory] || 
@@ -150,7 +155,11 @@ const AccountantDashboard = async () => {
     }
   });
 
-  const incomeChartData = incomeDistribution.map(item => {
+  const incomeChartData = incomeDistribution.map((item: { 
+    type: string; 
+    incomeCategory: string | null; 
+    _sum: { amount: bigint | null } 
+  }) => {
     // Get the category name - either from the Nepali mapping or format the enum
     const categoryName = item.incomeCategory ? 
       (incomeCategoryNepali[item.incomeCategory] || 

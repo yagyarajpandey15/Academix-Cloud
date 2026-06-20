@@ -91,7 +91,7 @@ const AttendanceListPage = async (
 
   const renderRow = (attendance: AttendanceWithRelations) => {
     // Get the current class from enrollments
-    const currentEnrollment = attendance.student.enrollments.find(e => e.leftAt === null);
+    const currentEnrollment = attendance.student.enrollments.find((e: { class: Class; leftAt: Date | null }) => e.leftAt === null);
     const studentClass = currentEnrollment?.class;
 
     return (

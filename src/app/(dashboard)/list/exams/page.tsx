@@ -138,7 +138,7 @@ const ExamListPage = async (
         }
       });
       query.classId = {
-        in: teacherClasses.map(c => c.id)
+        in: teacherClasses.map((c: { id: number }) => c.id)
       };
       break;
     case "student":

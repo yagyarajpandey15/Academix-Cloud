@@ -102,8 +102,8 @@ const ClassDetailPage = async (props: { params: { id: string }, searchParams?: {
   const now = new Date();
   const totalFees = classFees.reduce((sum, f) => sum + Number(f.totalAmount), 0);
   const collected = classFees.reduce((sum, f) => sum + Number(f.paidAmount), 0);
-  const pending = classFees.filter(f => f.status !== "PAID").reduce((sum, f) => sum + (Number(f.totalAmount) - Number(f.paidAmount)), 0);
-  const overdue = classFees.filter(f => f.status !== "PAID" && new Date(f.dueDate) < now).reduce((sum, f) => sum + (Number(f.totalAmount) - Number(f.paidAmount)), 0);
+  const pending = classFees.filter((f: { status: string; totalAmount: unknown; paidAmount: unknown; dueDate: unknown }) => f.status !== "PAID").reduce((sum, f: { status: string; totalAmount: unknown; paidAmount: unknown; dueDate: unknown }) => sum + (Number(f.totalAmount) - Number(f.paidAmount)), 0);
+  const overdue = classFees.filter((f: { status: string; totalAmount: unknown; paidAmount: unknown; dueDate: unknown }) => f.status !== "PAID" && new Date(f.dueDate as string) < now).reduce((sum, f: { status: string; totalAmount: unknown; paidAmount: unknown; dueDate: unknown }) => sum + (Number(f.totalAmount) - Number(f.paidAmount)), 0);
 
   // Student list table configuration
   const studentColumns = [

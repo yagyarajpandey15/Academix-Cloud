@@ -154,7 +154,7 @@ export default function ReceiptPage(props: { params: { id: string } }) {
   const remainingAmount = Number(fee.totalAmount) - totalPaid;
   const receiptNumber = `RCP-${fee.id}-${Date.now().toString().slice(-6)}`;
 
-  const currentEnrollment = fee?.student.enrollments.find(e => e.leftAt === null);
+  const currentEnrollment = fee?.student.enrollments.find((e: { leftAt: Date | null }) => e.leftAt === null);
   const studentClass = currentEnrollment?.class;
 
   // Function to convert fee category enum to Hindi

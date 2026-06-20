@@ -69,9 +69,9 @@ const TeacherAttendanceListPage = async (
     orderBy: { date: 'desc' }
   });
 
-  const presentToday = todayAttendance.filter(a => a.status === "PRESENT").length;
-  const absentToday = todayAttendance.filter(a => a.status === "ABSENT").length;
-  const lateToday = todayAttendance.filter(a => a.status === "LATE").length;
+  const presentToday = todayAttendance.filter((a: { status: string }) => a.status === "PRESENT").length;
+  const absentToday = todayAttendance.filter((a: { status: string }) => a.status === "ABSENT").length;
+  const lateToday = todayAttendance.filter((a: { status: string }) => a.status === "LATE").length;
   const attendancePercentage = totalTeachers > 0 ? ((presentToday + lateToday) / totalTeachers) * 100 : 0;
 
   // --- Sort logic ---

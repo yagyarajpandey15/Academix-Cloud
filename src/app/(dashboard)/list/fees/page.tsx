@@ -122,8 +122,8 @@ const FeesListPage = async (
   const now = new Date();
   const totalFees = allFees.reduce((sum, f) => sum + Number(f.totalAmount), 0);
   const collected = allFees.reduce((sum, f) => sum + Number(f.paidAmount), 0);
-  const pending = allFees.filter(f => f.status !== "PAID").reduce((sum, f) => sum + (Number(f.totalAmount) - Number(f.paidAmount)), 0);
-  const overdue = allFees.filter(f => f.status !== "PAID" && new Date(f.dueDate) < now).reduce((sum, f) => sum + (Number(f.totalAmount) - Number(f.paidAmount)), 0);
+  const pending = allFees.filter((f: { status: string; totalAmount: unknown; paidAmount: unknown; dueDate: unknown }) => f.status !== "PAID").reduce((sum, f: { status: string; totalAmount: unknown; paidAmount: unknown; dueDate: unknown }) => sum + (Number(f.totalAmount) - Number(f.paidAmount)), 0);
+  const overdue = allFees.filter((f: { status: string; totalAmount: unknown; paidAmount: unknown; dueDate: unknown }) => f.status !== "PAID" && new Date(f.dueDate as string) < now).reduce((sum, f: { status: string; totalAmount: unknown; paidAmount: unknown; dueDate: unknown }) => sum + (Number(f.totalAmount) - Number(f.paidAmount)), 0);
 
   // --- Sort logic ---
   const { page, sort, direction, ...queryParams } = searchParams;

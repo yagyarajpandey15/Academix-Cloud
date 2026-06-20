@@ -167,7 +167,7 @@ const AttendanceListPage = async (
     
     query.where.AND.push({
       classId: {
-        in: teacherClasses.map(c => c.id)
+        in: teacherClasses.map((c: { id: number }) => c.id)
       }
     });
   }

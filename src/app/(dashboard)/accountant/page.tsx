@@ -135,7 +135,7 @@ const AccountantDashboard = async () => {
   }) => {
     // Get the category name - either from the Nepali mapping or format the enum
     const categoryName = item.expenseCategory ? 
-      (expenseCategoryNepali[item.expenseCategory] || 
+      (expenseCategoryNepali[item.expenseCategory as keyof typeof expenseCategoryNepali] || 
         item.expenseCategory.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())) : 
       'Other';
     
@@ -162,7 +162,7 @@ const AccountantDashboard = async () => {
   }) => {
     // Get the category name - either from the Nepali mapping or format the enum
     const categoryName = item.incomeCategory ? 
-      (incomeCategoryNepali[item.incomeCategory] || 
+      (incomeCategoryNepali[item.incomeCategory as keyof typeof incomeCategoryNepali] || 
         item.incomeCategory.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())) : 
       'Other';
     

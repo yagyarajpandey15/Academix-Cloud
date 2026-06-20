@@ -61,9 +61,9 @@ const AttendanceListPage = async (
     orderBy: { date: 'desc' }
   });
 
-  const presentToday = todayAttendance.filter(a => a.status === "PRESENT").length;
-  const absentToday = todayAttendance.filter(a => a.status === "ABSENT").length;
-  const lateToday = todayAttendance.filter(a => a.status === "LATE").length;
+  const presentToday = todayAttendance.filter((a: { status: string }) => a.status === "PRESENT").length;
+  const absentToday = todayAttendance.filter((a: { status: string }) => a.status === "ABSENT").length;
+  const lateToday = todayAttendance.filter((a: { status: string }) => a.status === "LATE").length;
   const attendancePercentage = totalStudents > 0 ? ((presentToday + lateToday) / totalStudents) * 100 : 0;
   // --- End Summary Card Calculations ---
 

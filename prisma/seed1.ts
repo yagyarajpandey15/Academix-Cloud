@@ -26,7 +26,7 @@ async function main() {
     }
     
     // Get student IDs
-    const studentIds = studentsInClass.map(enrollment => enrollment.student.id);
+    const studentIds = studentsInClass.map((enrollment: { student: { id: string } }) => enrollment.student.id);
     console.log('Student IDs:', studentIds);
     
     // Delete all fees for these students

@@ -12,10 +12,14 @@ export default clerkMiddleware(async (auth, req) => {
   const authObject = await auth();
   const sessionClaims = authObject.sessionClaims;
 
-  // Extract the user's role - Clerk v6 puts publicMetadata in sessionClaims
-  const metadata = sessionClaims?.metadata as { role?: string } | undefined;
-  const publicMetadata = (sessionClaims as any)?.publicMetadata as { role?: string } | undefined;
-  const role = metadata?.role || publicMetadata?.role;
+  // Clerk v6: publicMetadata is available directly on sessionClaims
+  // Try all possible locations where role might be stored
+  const role = 
+    (sessionClaims?.metadata as any)?.role ||
+    (sessionClaims as any)?.publicMetadata?.role ||
+    (sessionClaims as any)?.public_metadata?.role ||
+    (sessionClaims as any)?.role ||
+    undefined;
 
   // Check if the request is for an API route
   const isApiRoute = req.nextUrl.pathname.startsWith('/api');
@@ -23,18 +27,11 @@ export default clerkMiddleware(async (auth, req) => {
   // Iterate through matchers to check access permissions
   for (const { matcher, allowedRoles } of matchers) {
     if (matcher(req)) {
-      // If the user's role is not allowed
       if (!role || !allowedRoles.includes(role)) {
         if (isApiRoute) {
           return new NextResponse(
-            JSON.stringify({ 
-              error: 'Access denied',
-              message: 'You do not have permission to access this resource'
-            }),
-            {
-              status: 403,
-              headers: { 'Content-Type': 'application/json' },
-            }
+            JSON.stringify({ error: 'Access denied' }),
+            { status: 403, headers: { 'Content-Type': 'application/json' } }
           );
         } else {
           const baseUrl = req.nextUrl.origin;

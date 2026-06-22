@@ -8,6 +8,7 @@ const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/unauthorized",
+  "/api/debug-claims",
 ]);
 
 // Create matchers for each protected route and its allowed roles
@@ -27,11 +28,14 @@ export default clerkMiddleware(async (auth, req) => {
   const authObject = await auth();
   const sessionClaims = authObject.sessionClaims;
 
-  // Read role from all possible locations in session claims
+  // Clerk stores publicMetadata in sessionClaims under 'metadata' key
+  // when session token is customized. Check all possible locations.
+  const claimsAny = sessionClaims as any;
   const role =
-    (sessionClaims?.metadata as any)?.role ||
-    (sessionClaims as any)?.publicMetadata?.role ||
-    (sessionClaims as any)?.public_metadata?.role ||
+    claimsAny?.metadata?.role ||
+    claimsAny?.publicMetadata?.role ||
+    claimsAny?.public_metadata?.role ||
+    claimsAny?.role ||
     undefined;
 
   const isApiRoute = pathname.startsWith("/api");
@@ -46,7 +50,6 @@ export default clerkMiddleware(async (auth, req) => {
             { status: 403, headers: { "Content-Type": "application/json" } }
           );
         }
-        // Redirect to unauthorized — safe because /unauthorized is a public route
         return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
       }
     }

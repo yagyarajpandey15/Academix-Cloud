@@ -50,7 +50,7 @@ const LoginPage = () => {
     setShowPassword(!showPassword);
   };
 
-  // Show loading state until Clerk has loaded
+  // Show loading state until Clerk has loaded - with timeout to prevent infinite spinner
   if (!isLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center">

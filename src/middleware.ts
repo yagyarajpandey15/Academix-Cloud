@@ -12,8 +12,10 @@ export default clerkMiddleware(async (auth, req) => {
   const authObject = await auth();
   const sessionClaims = authObject.sessionClaims;
 
-  // Extract the user's role from session claims
-  const role = (sessionClaims?.metadata as { role?: string })?.role;
+  // Extract the user's role - Clerk v6 puts publicMetadata in sessionClaims
+  const metadata = sessionClaims?.metadata as { role?: string } | undefined;
+  const publicMetadata = (sessionClaims as any)?.publicMetadata as { role?: string } | undefined;
+  const role = metadata?.role || publicMetadata?.role;
 
   // Check if the request is for an API route
   const isApiRoute = req.nextUrl.pathname.startsWith('/api');
@@ -24,7 +26,6 @@ export default clerkMiddleware(async (auth, req) => {
       // If the user's role is not allowed
       if (!role || !allowedRoles.includes(role)) {
         if (isApiRoute) {
-          // For API routes, return a 403 Forbidden response
           return new NextResponse(
             JSON.stringify({ 
               error: 'Access denied',
@@ -32,13 +33,10 @@ export default clerkMiddleware(async (auth, req) => {
             }),
             {
               status: 403,
-              headers: {
-                'Content-Type': 'application/json',
-              },
+              headers: { 'Content-Type': 'application/json' },
             }
           );
         } else {
-          // For page routes, redirect to unauthorized page
           const baseUrl = req.nextUrl.origin;
           return NextResponse.redirect(new URL(`/${role ?? "unauthorized"}`, baseUrl));
         }
